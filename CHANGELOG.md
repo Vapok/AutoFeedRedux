@@ -2,7 +2,7 @@
 
 ## v1.1.4 - Updated Dependencies
 * Updated all dependencies to latest versions.
-* 
+
 ## v1.1.3 - Updated Dependencies
 * Updated all dependencies to latest versions.
 
