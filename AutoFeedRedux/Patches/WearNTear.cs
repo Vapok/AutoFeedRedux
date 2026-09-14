@@ -7,14 +7,14 @@ namespace AutoFeedRedux.Patches;
 public class WearNTearPatches
 {
     [HarmonyPatch(typeof(WearNTear), nameof(WearNTear.Damage))]
-    static class GameAwakePatch
+    static class WearNTearDamagePatch
     {
         static bool Prefix(WearNTear __instance, HitData hit)
         {
             if (!ConfigRegistry.ProtectContainers.Value || !ConfigRegistry.Enabled.Value)
                 return true;
             
-            if (!__instance.m_nview.IsValid() || hit == null)
+            if (__instance == null || __instance.m_nview == null || !__instance.m_nview.IsValid() || hit == null)
                 return true;
             
             if (__instance.gameObject.TryGetComponent<FeedTrough>(out var trough))
@@ -30,5 +30,4 @@ public class WearNTearPatches
             return true;
         }
     }
-
 }

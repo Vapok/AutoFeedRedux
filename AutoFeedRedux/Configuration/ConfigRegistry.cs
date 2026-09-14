@@ -33,12 +33,12 @@ namespace AutoFeedRedux.Configuration
                 return;
             
             //User Configs
-            SyncedConfig("Synced Settings", "Enable Auto Feeder", false,
+            SyncedConfig("Synced Settings", "Enable Auto Feeder", true,
                 new ConfigDescription("If true, will automatically feed tameables from nearby containers, if food is available.",
                     null, 
                     new ConfigurationManagerAttributes { Category = "Synced Settings", Order = 1 }),ref Enabled);
 
-            SyncedConfig("Synced Settings", "Feed Range in Meters", 10f,
+            SyncedConfig("Synced Settings", "Feed Range in Meters", 30f,
                 new ConfigDescription("Range container must be from tameable to feed from it.",
                     null, 
                     new ConfigurationManagerAttributes { Category = "Synced Settings", Order = 2 }),ref FeedRange);
@@ -48,7 +48,7 @@ namespace AutoFeedRedux.Configuration
                     null, 
                     new ConfigurationManagerAttributes { Category = "Synced Settings", Order = 3 }),ref RequireMove);
 
-            SyncedConfig("Synced Settings", "Move Proximity", 5f,
+            SyncedConfig("Synced Settings", "Move Proximity", 1f,
                 new ConfigDescription("If move is required, distance from container before feeding.",
                     null, 
                     new ConfigurationManagerAttributes { Category = "Synced Settings", Order = 3 }),ref MoveProximity);
