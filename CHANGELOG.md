@@ -1,38 +1,48 @@
-# AutoFeedRedux Patch Notes
+# AutoFeedRedux Patchnotes
 
-## v1.1.4 - Updated Dependencies
+## 2.0.0 - Valheim 1.0 Update & Direct Container Feeding
+* Updated for Valheim 1.0.
+* Overhauled "Require Move to Feed" navigation:
+  * Animals now pathfind and navigate directly to target feed containers.
+  * Food is consumed directly from the container upon arrival rather than dropping items in advance.
+* Modernized ZDO container detection with Valheim's standard ZDOVars.
+* Bug fixes and performance improvements.
+
+<details>
+<summary><b>Changelog History</b> (<i>click to expand</i>)</summary>
+
+## 1.1.4 - Updated Dependencies
 * Updated all dependencies to latest versions.
 
-## v1.1.3 - Updated Dependencies
+## 1.1.3 - Updated Dependencies
 * Updated all dependencies to latest versions.
 
-## v1.1.2 - Fixing a LookingAt Warning
+## 1.1.2 - Fixing a LookingAt Warning
 * A change in a recent Valheim release changed the method for looking at to LookingTowards.
 
-## v1.1.1 - Fixing Dedicated Server Config Syncing
+## 1.1.1 - Fixing Dedicated Server Config Syncing
 * A regression issue was introduced when switching to Jotunn preventing servers from dictating configs to clients.
   * This has been resolved.
 * Appropriately added the BepInDependency Flags for graceful mod exit if missing dependencies.
 
-
-## v1.1.0 - Removes ServerSync and Adds JotunnVL 
+## 1.1.0 - Removes ServerSync and Adds JotunnVL 
 * Updates for 0.221.4 Valheim
 
-## v1.0.4 - Update for 0.217.28
+## 1.0.4 - Update for 0.217.28
 * Updates for 0.217.28 Valheim
 
-## v1.0.3 - Update for 0.217.24
+## 1.0.3 - Update for 0.217.24
 * Updates for 0.217.24 Valheim
 
-## v1.0.2 - Small Update
+## 1.0.2 - Small Update
 * Fixing error messages that show up during spawn and death events.
   * The errors didn't effect operations.
 
-## v1.0.1 - Small Update
+## 1.0.1 - Small Update
 * Fixing an inventory bug found in a rare scenario.
 * New Container Protection Logic to ensure Tames don't destroy containers, if enabled.
 
-## v1.0.0 - Initial Version of AutoFeedRedux
+## 1.0.0 - Initial Version of AutoFeedRedux
 * Feed Range - Default: 10 meters
     * Range in Meters that creatures will attempt to eat from container.
 * Require Move - Default: Enabled
@@ -50,3 +60,5 @@
 * Protect Containers - Default: true
     * When enabled, creatures in the taming process will be highly encouraged to not attack nearby containers with food in them.
     * This greatly reduces the frequency that creatures, while taming, will attack the containers.
+
+</details>

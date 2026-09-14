@@ -23,7 +23,10 @@ public static class ContainerPatches
     {
         static void Prefix(Container __instance)
         {
-            AutoFeeder.Instance.RemoveContainer(__instance);
+            if (AutoFeeder.Instance != null)
+            {
+                AutoFeeder.Instance.RemoveContainer(__instance);
+            }
         }
     }    
 }

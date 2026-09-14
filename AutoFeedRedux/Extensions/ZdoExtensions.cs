@@ -4,11 +4,15 @@ public static class ZdoExtensions
 {
     public static bool IsDefaultCreator(this ZDO zdo)
     {
-        return zdo.GetLong("creator".GetStableHashCode()) == 0;
-        
+        if (zdo == null)
+            return true;
+        return zdo.GetLong(ZDOVars.s_creator) == 0;
     }
+
     public static bool IsPlayerCreator(this ZDO zdo, Player player)
     {
-        return zdo.GetLong("creator".GetStableHashCode()) == player.GetPlayerID();
+        if (zdo == null || player == null)
+            return false;
+        return zdo.GetLong(ZDOVars.s_creator) == player.GetPlayerID();
     }
 }
