@@ -5,6 +5,10 @@
 * Overhauled "Require Move to Feed" navigation:
   * Animals now pathfind and navigate directly to target feed containers.
   * Food is consumed directly from the container upon arrival rather than dropping items in advance.
+* Updated default configuration values:
+  * `Enable Auto Feeder` default set to `true`.
+  * `Feed Range in Meters` default updated to `30m`.
+  * `Move Proximity` default updated to `1m`.
 * Modernized ZDO container detection with Valheim's standard ZDOVars.
 * Bug fixes and performance improvements.
 

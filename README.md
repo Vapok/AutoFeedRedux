@@ -1,36 +1,43 @@
 # AutoFeedRedux by Vapok
 
-AutoFeederRedux is a completely re-engineered take on the auto feeder. Reduces the amount of looping that other feeders were doing, and does not need to keep track of every container.
+**AutoFeedRedux** is a lightweight, high-performance take on automatic feeding for Valheim. It eliminates excessive container looping and world tracking overhead by letting tameable creatures smartly locate and feed from nearby player-built containers when hungry.
 
-Out of the box settings, containers near tameable creatures, will be used for feeding if there is an appropriate food for that tame in the box.
+---
 
-The following settings are customizable:
-* Feed Range - Default: 10 meters
-  * Range in Meters that creatures will attempt to eat from container.
-* Require Move - Default: Enabled
-  * Requires creatures to move closer and within the proximity of the container in order to feed.
-  * Setting to Disabled will feed the creature automatically without having to move it assuming it is within the Feed Range.
-  * This setting is not fool-proof, and large distances are difficult to navigate. Advice is to ensure you are putting your tames in a pen.
-* Move Proximity - Default: 5f
-  * The maximum distance from the container it will allow to feed if required to move.
-* Disallow Feed - Default: <empty>
-  * This is a comma-separated list of food that you want to prevent tames from eating from a container automatically.
-    * Acceptable values: Carrot,Turnip, etc.
-* Disallow Animal - Default <emtpy>
-  * This is a comma-separated list of creatures that you do not want to auto-feed.
-    * Acceptable values: Boar,Lox, etc.
-* Protect Containers - Default: true
-  * When enabled, creatures in the taming process will be highly encouraged to not attack nearby containers with food in them.
-  * This greatly reduces the frequency that creatures, while taming, will attack the containers.
+## Features
+
+* 🚶 **Direct-to-Container Navigation**: When hungry, tameable animals navigate directly to the nearest container containing compatible food.
+* 📦 **Clean Inventory Consumption**: Food is consumed straight from the container inventory once the animal arrives—no dropped items littering the ground.
+* 🛡️ **Container Protection**: Protects feed chests and troughs from being damaged or destroyed by creatures during the taming process.
+* ⚡ **Optimized Performance**: Highly efficient spatial queries that avoid scanning every container across the entire world.
+* 🌐 **Server-Synced Configuration**: Fully integrated with Jotunn configuration syncing to enforce server-side settings on multiplayer servers.
+
+---
+
+## Configuration Settings
+
+All settings can be customized in-game or via the BepInEx configuration file (`vapok.mods.AutoFeedRedux.cfg`).
+
+| Setting | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| **Enable Auto Feeder** | `bool` | `true` | Enables or disables automatic feeding from nearby containers. |
+| **Feed Range in Meters** | `float` | `30` | Maximum search distance (in meters) from the animal to find valid feed containers. |
+| **Require Move to Feed** | `bool` | `true` | When enabled, animals will walk to the container to feed. When disabled, animals feed instantly on the spot if within range. |
+| **Move Proximity** | `float` | `1` | The distance (in meters) from the container the animal must reach before feeding. |
+| **Protect Feed Containers** | `bool` | `true` | Prevents creatures from damaging containers designated as feed troughs. |
+| **Disallow Feed** | `string` | `""` | Comma-separated list of item names to exclude from auto-feeding (e.g. `Carrot, Turnip`). |
+| **Disallow Animal** | `string` | `""` | Comma-separated list of creature names to exclude from auto-feeding (e.g. `Boar, Lox`). |
+
+---
 
 ### Mod Author Details
 
-Author: [Vapok](https://thunderstore.io/c/valheim/p/Vapok/)
+![Vapok Gaming](https://avatars.githubusercontent.com/u/1264136?s=180&v=4)
 
-Source: [Thunderstore](https://thunderstore.io/c/valheim/p/Vapok/AutoFeedRedux/source/)
+Author: [Vapok](https://github.com/Vapok)
 
-Discord: [Vapok's Mod's Community](https://discord.gg/5YAJkRFBXt)
+Source: [GitHub](https://github.com/Vapok/AutoFeedRedux)
 
-Patch notes: [Thunderstore Changelog](https://thunderstore.io/c/valheim/p/Vapok/AutoFeedRedux/changelog/)
+Discord: [Vapok's Mod Community](https://discord.gg/5YAJkRFBXt)
 
-
+Patch Notes: [GitHub Changelog](https://github.com/Vapok/AutoFeedRedux/blob/main/CHANGELOG.md)
