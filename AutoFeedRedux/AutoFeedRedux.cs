@@ -1,4 +1,4 @@
-﻿/* AutoFeedRedux by Vapok */
+/* AutoFeedRedux by Vapok */
 using System;
 using System.Reflection;
 using BepInEx;
@@ -23,7 +23,7 @@ namespace AutoFeedRedux
         //Module Constants
         private const string _pluginId = "vapok.mods.AutoFeedRedux";
         private const string _displayName = "AutoFeedRedux";
-        private const string _version = "2.0.0";
+        private const string _version = "2.0.1";
         
         //Interface Properties
         public string PluginId => _pluginId;
