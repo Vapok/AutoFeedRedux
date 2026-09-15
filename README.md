@@ -67,15 +67,13 @@ All settings can be tailored in real-time using the in-game [BepInEx Configurati
 
 ## 🌐 Available Translations
 
-AutoFeedRedux supports community translations:
-
 <div align="center">
 
-🇺🇸 **English** • 🇩🇪 **German** • 🇫🇷 **French** • 🇪🇸 **Spanish** • 🇨🇳 **Chinese** • 🇷🇺 **Russian**
+🇺🇸 **English** (Default)
 
 </div>
 
-*Want to contribute a translation? Feel free to submit a pull request on [GitHub](https://github.com/Vapok/AutoFeedRedux) or join our [Discord](https://discord.gg/5YAJkRFBXt).*
+*Want to help translate Auto Feed Redux? Community translations are welcome! Please submit a PR on [GitHub](https://github.com/Vapok/AutoFeedRedux) or stop by our [Discord](https://discord.gg/5YAJkRFBXt).*
 
 ---
 
