@@ -4,8 +4,6 @@
 
 ### *Automated creature feeding and container management for Valheim.*
 
-[![Survival Servers](https://ibin.co/5RCcxHBNFp)](https://www.survivalservers.com/services/game_servers/valheim/?ref=vapok)
-
 [![GitHub Release](https://img.shields.io/github/v/release/Vapok/AutoFeedRedux?include_prereleases&logo=github&style=for-the-badge)](https://github.com/Vapok/AutoFeedRedux/releases)
 [![Thunderstore Version](https://img.shields.io/thunderstore/v/Vapok/AutoFeedRedux?logo=thunderstore&style=for-the-badge)](https://thunderstore.io/c/valheim/p/Vapok/AutoFeedRedux/)
 [![Nexus Mods](https://img.shields.io/badge/Nexus_Mods-Available-da8e35?logo=nexusmods&style=for-the-badge)](https://www.nexusmods.com/valheim/mods/3168)
@@ -20,6 +18,14 @@
 Tired of tossing stacks of berries, mushrooms, and meat onto the muddy pen floor only for half of it to despawn or get trampled? **AutoFeedRedux** automates the feeding routine for your tamed livestock and beasts. Tames will dynamically pathfind to nearby storage containers (chests, carts, barrels) and eat directly from them when hungry!
 
 ---
+
+<div align="center">
+
+<br>
+
+[![Survival Servers](https://raw.githubusercontent.com/Vapok/AutoFeedRedux/refs/heads/main/images/survivalservers_banner.png)](https://www.survivalservers.com/services/game_servers/valheim/?ref=vapok)
+
+</div>
 
 ## 🐾 How It Works
 
