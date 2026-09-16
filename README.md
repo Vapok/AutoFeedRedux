@@ -23,7 +23,7 @@ Tired of tossing stacks of berries, mushrooms, and meat onto the muddy pen floor
 
 <br>
 
-[![Survival Servers](https://raw.githubusercontent.com/Vapok/AutoFeedRedux/refs/heads/main/images/survivalservers_banner.png)](https://www.survivalservers.com/services/game_servers/valheim/?ref=vapok)
+[![Survival Servers](https://raw.githubusercontent.com/Vapok/AutoFeedRedux/main/images/survivalservers_banner.png)](https://www.survivalservers.com/services/game_servers/valheim/?ref=vapok)
 
 </div>
 
