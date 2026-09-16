@@ -1,6 +1,6 @@
 {
   "name": "AutoFeedRedux",
-  "version_number": "2.0.2",
+  "version_number": "2.0.3",
   "website_url": "https://github.com/Vapok/AutoFeedRedux",
   "description": "Tired of forgetting to feed your pets? Make feeding your animals a breeze with the Auto Feed Redux! A simple Valheim mod for feeding your tames!",
   "dependencies": [
