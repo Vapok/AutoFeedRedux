@@ -10,6 +10,7 @@ using Vapok.Common.Abstractions;
 using Vapok.Common.Managers;
 using Vapok.Common.Managers.Configuration;
 using Vapok.Common.Managers.LocalizationManager;
+using Vapok.Common.Managers.Splash;
 using Vapok.Common.Tools;
 
 namespace AutoFeedRedux
@@ -23,7 +24,7 @@ namespace AutoFeedRedux
         //Module Constants
         private const string _pluginId = "vapok.mods.AutoFeedRedux";
         private const string _displayName = "AutoFeedRedux";
-        private const string _version = "2.0.1";
+        private const string _version = "2.0.2";
         
         //Interface Properties
         public string PluginId => _pluginId;
@@ -72,6 +73,14 @@ namespace AutoFeedRedux
             //Patch Harmony
             _harmony = new Harmony(Info.Metadata.GUID);
             _harmony.PatchAll(Assembly.GetExecutingAssembly());
+
+            //Register Mod Splash Screen
+            ModSplashManager.Register(new ModSplashDossier(_instance)
+            {
+                Tagline = "An automated feeding mod that keeps tamed creatures fed from nearby containers.",
+                ShowOnStartup = ConfigRegistry.ShowSplashOnStartup,
+                EnableTelemetry = ConfigRegistry.EnableTelemetry,
+            });
 
             //???
 

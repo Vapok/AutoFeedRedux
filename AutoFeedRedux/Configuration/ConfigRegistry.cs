@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using BepInEx.Configuration;
 using Vapok.Common.Abstractions;
 using Vapok.Common.Managers.Configuration;
@@ -16,6 +16,8 @@ namespace AutoFeedRedux.Configuration
         internal static ConfigEntry<float> MoveProximity;
         internal static ConfigEntry<string> DisallowFeed;
         internal static ConfigEntry<string> DisallowAnimal;
+        internal static ConfigEntry<bool> ShowSplashOnStartup;
+        internal static ConfigEntry<bool> EnableTelemetry;
         
         public static Waiting Waiter;
 
@@ -67,6 +69,15 @@ namespace AutoFeedRedux.Configuration
                 new ConfigDescription("If true, will prevent creatures from damaging containers identified as feed containers",
                     null, 
                     new ConfigurationManagerAttributes { Category = "Synced Settings", Order = 2 }),ref ProtectContainers);
+
+            //Local Configs
+            UnsyncedConfig("Local Config", "Show Splash on Startup", true,
+                new ConfigDescription("If enabled, displays the mod overview and links splash screen on game startup.",
+                    null, new ConfigurationManagerAttributes { Order = 4 }), ref ShowSplashOnStartup);
+
+            UnsyncedConfig("Local Config", "Enable Anonymous Telemetry", true,
+                new ConfigDescription("If enabled, sends anonymous mod launch and heartbeat telemetry to help improve mod stability and track active versions.",
+                    null, new ConfigurationManagerAttributes { Order = 5 }), ref EnableTelemetry);
         }
     }
     
