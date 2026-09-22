@@ -1,7 +1,7 @@
 # 2.0.8 - Container Scanning & Dedicated Server Fixes
 * Fixed an issue where container searching could cause errors on dedicated servers.
 * Improved safety when tames eat food directly from storage containers.
-* Updated internal libraries for better stability.
+* Updated Jotunn to 2.30.2 and internal dependencies for stability.
 
 <details>
 <summary><b>2.0 Changelog History (Valheim Release)</b> (<i>click to expand</i>)</summary>
