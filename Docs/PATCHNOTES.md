@@ -1,3 +1,12 @@
+# 2.0.8 - Container Scanning & Dedicated Server Fixes
+* **Dedicated Server Container Search Safeguards**:
+  * In `Forager.cs`, hardened `UpdateContainers()` and `GetNearbyContainers` with defensive null checks (`gameObject != null`, `_nearbyContainers != null`, `collider.gameObject != null`), resolving [AUTOFEEDREDUX-6](https://vapok-gaming.sentry.io/issues/AUTOFEEDREDUX-6).
+  * In `Forager.ConsumeFromContainer`, wrapped `m_onConsumedItem`, `m_consumeItemEffects`, and animator triggers in defensive try/catch blocks, resolving [AUTOFEEDREDUX-2](https://vapok-gaming.sentry.io/issues/AUTOFEEDREDUX-2).
+  * Enforced explicit typing across `Forager.cs`, eliminating lazy `var` declarations.
+* **Library Updates**:
+  * Synchronized `Vapok.Valheim.Common` to `3.17.1015`.
+  * Synchronized `JotunnLib` to `2.30.2`.
+
 # 2.0.7 - Valheim 1.0.15 Alignment & Internalized Dependency Updates
 * **Valheim 1.0.15 Alignment**:
   * Aligned publicized game assembly and UnityEngine references to Valheim 1.0.15.

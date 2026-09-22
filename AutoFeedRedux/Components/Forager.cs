@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoFeedRedux.Configuration;
@@ -36,9 +36,12 @@ public class Forager : MonoBehaviour
 
     public void UpdateContainers()
     {
+        if (gameObject == null || !gameObject)
+            return;
+
         _nearbyContainers = GetNearbyContainers(gameObject.transform.position, ConfigRegistry.FeedRange.Value);
-        var tameness = Tame != null ? Tame.GetTameness().ToString() : "N/A";
-        AutoFeedRedux.Log.Debug($"Tameable {gameObject.name} with Tameness {tameness} has {_nearbyContainers.Count} nearby Containers");
+        string tameness = Tame != null ? Tame.GetTameness().ToString() : "N/A";
+        AutoFeedRedux.Log.Debug($"Tameable {gameObject.name} with Tameness {tameness} has {_nearbyContainers?.Count ?? 0} nearby Containers");
     }
 
     private void OnEnable()
@@ -77,7 +80,7 @@ public class Forager : MonoBehaviour
             return false;
         }
 
-        var disallowAnimalList = ConfigRegistry.DisallowAnimal.Value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] disallowAnimalList = ConfigRegistry.DisallowAnimal.Value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
         if (disallowAnimalList.Any(animal => monsterAI.name.StartsWith(animal.Trim(), StringComparison.OrdinalIgnoreCase)))
         {
             ClearTarget();
@@ -112,7 +115,7 @@ public class Forager : MonoBehaviour
             if (_nearbyContainers == null || _nearbyContainers.Count == 0)
                 return false;
 
-            if (!FindClosestContainerWithFood(monsterAI, out var closestContainer, out var foodItem))
+            if (!FindClosestContainerWithFood(monsterAI, out Container closestContainer, out ItemDrop foodItem))
             {
                 return false;
             }
@@ -137,18 +140,18 @@ public class Forager : MonoBehaviour
         // Move towards target container and consume when in range
         if (TargetContainer != null)
         {
-            var myPos = Animal != null ? Animal.transform.position : transform.position;
-            var targetPos = TargetContainer.m_piece != null
+            Vector3 myPos = Animal != null ? Animal.transform.position : transform.position;
+            Vector3 targetPos = TargetContainer.m_piece != null
                 ? TargetContainer.m_piece.FindClosestPoint(myPos)
                 : TargetContainer.transform.position;
 
-            var proximity = ConfigRegistry.MoveProximity.Value;
-            var distance = Vector3.Distance(myPos, targetPos);
+            float proximity = ConfigRegistry.MoveProximity.Value;
+            float distance = Vector3.Distance(myPos, targetPos);
 
-            var reached = monsterAI.MoveTo(dt, targetPos, proximity, false);
+            bool reached = monsterAI.MoveTo(dt, targetPos, proximity, false);
             if (reached || distance <= proximity)
             {
-                var lookTarget = TargetContainer.m_piece != null ? TargetContainer.m_piece.GetCenter() : targetPos;
+                Vector3 lookTarget = TargetContainer.m_piece != null ? TargetContainer.m_piece.GetCenter() : targetPos;
                 monsterAI.LookAt(lookTarget);
                 if (monsterAI.IsLookingAt(lookTarget, 35f))
                 {
@@ -170,7 +173,7 @@ public class Forager : MonoBehaviour
         if (container == null || !container || container.GetInventory() == null)
             return false;
 
-        var myPos = Animal != null ? Animal.transform.position : transform.position;
+        Vector3 myPos = Animal != null ? Animal.transform.position : transform.position;
         if (Vector3.Distance(myPos, container.transform.position) > ConfigRegistry.FeedRange.Value * 1.5f)
             return false;
 
@@ -184,18 +187,18 @@ public class Forager : MonoBehaviour
     {
         bestContainer = null;
         bestFood = null;
-        var shortestDist = float.MaxValue;
-        var myPos = Animal != null ? Animal.transform.position : transform.position;
+        float shortestDist = float.MaxValue;
+        Vector3 myPos = Animal != null ? Animal.transform.position : transform.position;
 
-        var disallowFoodList = ConfigRegistry.DisallowFeed.Value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] disallowFoodList = ConfigRegistry.DisallowFeed.Value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-        foreach (var container in _nearbyContainers)
+        foreach (Container container in _nearbyContainers)
         {
             if (container == null || container.GetInventory() == null)
                 continue;
 
-            var inv = container.GetInventory();
-            foreach (var food in monsterAI.m_consumeItems)
+            Inventory inv = container.GetInventory();
+            foreach (ItemDrop food in monsterAI.m_consumeItems)
             {
                 if (food == null || food.m_itemData == null || food.m_itemData.m_shared == null)
                     continue;
@@ -205,7 +208,7 @@ public class Forager : MonoBehaviour
 
                 if (inv.ContainsItemByName(food.m_itemData.m_shared.m_name))
                 {
-                    var dist = Vector3.Distance(myPos, container.transform.position);
+                    float dist = Vector3.Distance(myPos, container.transform.position);
                     if (dist < shortestDist)
                     {
                         shortestDist = dist;
@@ -222,26 +225,44 @@ public class Forager : MonoBehaviour
 
     private bool ConsumeFromContainer(Container container, ItemDrop foodItem, MonsterAI monsterAI, Humanoid humanoid)
     {
-        if (container == null || container.GetInventory() == null || foodItem == null)
+        if (container == null || container.GetInventory() == null || foodItem == null || foodItem.m_itemData?.m_shared == null)
             return false;
 
-        var inventory = container.GetInventory();
-        var invItem = inventory.GetItem(foodItem.m_itemData.m_shared.m_name);
+        Inventory inventory = container.GetInventory();
+        ItemDrop.ItemData invItem = inventory.GetItem(foodItem.m_itemData.m_shared.m_name);
         if (invItem != null && inventory.RemoveOneItem(invItem))
         {
-            AutoFeedRedux.Log.Debug($"{monsterAI.name} consumed {foodItem.name} from {container.name}");
+            AutoFeedRedux.Log.Debug($"{monsterAI?.name ?? "Creature"} consumed {foodItem.name} from {container.name}");
 
-            // Trigger tameable soothe effect & reset feeding timer
-            monsterAI.m_onConsumedItem?.Invoke(foodItem);
-
-            // Trigger humanoid consume effects (sound, particles)
-            if (humanoid != null && humanoid.m_consumeItemEffects != null)
+            try
             {
-                humanoid.m_consumeItemEffects.Create(transform.position, Quaternion.identity, null, 1f, -1, default(ZDOID));
+                monsterAI?.m_onConsumedItem?.Invoke(foodItem);
+            }
+            catch (Exception ex)
+            {
+                AutoFeedRedux.Log.Warning($"Exception invoking m_onConsumedItem for {monsterAI?.name ?? "Creature"}: {ex.Message}");
             }
 
-            // Trigger consume animation
-            monsterAI.m_animator?.SetTrigger("consume");
+            try
+            {
+                if (humanoid != null && humanoid.m_consumeItemEffects != null)
+                {
+                    humanoid.m_consumeItemEffects.Create(transform.position, Quaternion.identity, null, 1f, -1, default(ZDOID));
+                }
+            }
+            catch (Exception ex)
+            {
+                AutoFeedRedux.Log.Warning($"Exception playing consumeItemEffects: {ex.Message}");
+            }
+
+            try
+            {
+                monsterAI?.m_animator?.SetTrigger("consume");
+            }
+            catch (Exception ex)
+            {
+                AutoFeedRedux.Log.Warning($"Exception triggering consume animation: {ex.Message}");
+            }
 
             return true;
         }
@@ -251,17 +272,20 @@ public class Forager : MonoBehaviour
 
     private List<Container> GetNearbyContainers(Vector3 center, float range)
     {
-        var containers = new List<Container>();
+        List<Container> containers = new();
         Feeder ??= AutoFeeder.Instance;
         if (Feeder == null)
             return containers;
 
-        var colliders = Physics.OverlapSphere(center, Mathf.Max(range, 0), Feeder.ContainerLayer);
+        Collider[] colliders = Physics.OverlapSphere(center, Mathf.Max(range, 0), Feeder.ContainerLayer);
         _nearbyColliders = new HashSet<Collider>();
 
-        foreach (var collider in colliders)
+        foreach (Collider collider in colliders)
         {
-            var container = collider.gameObject.GetComponentInParent<Container>();
+            if (collider == null || !collider || collider.gameObject == null)
+                continue;
+
+            Container container = collider.gameObject.GetComponentInParent<Container>();
             if (container != null && !containers.Contains(container))
             {
                 containers.Add(container);
