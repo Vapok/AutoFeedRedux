@@ -21,70 +21,49 @@ namespace AutoFeedRedux
 
     public class AutoFeedRedux : BaseUnityPlugin, IPluginInfo
     {
-        //Module Constants
         private const string _pluginId = "vapok.mods.AutoFeedRedux";
         private const string _displayName = "AutoFeedRedux";
         private const string _version = "2.0.8";
         
-        //Interface Properties
         public string PluginId => _pluginId;
         public string DisplayName => _displayName;
         public string Version => _version;
         public BaseUnityPlugin Instance => _instance;
         public AutoFeeder AutoFeeder { get; set; }
 
-        
-        //Class Properties
         public static ILogIt Log => _log;
         public static bool ValheimAwake;
         public static Waiting Waiter;
-        //public static AutoFeedRedux Main => _instance;
         
-        //Class Privates
         private static AutoFeedRedux _instance;
         private static ConfigSyncBase _config;
         private static ILogIt _log;
         private Harmony _harmony;
         
         [UsedImplicitly]
-        // This the main function of the mod. BepInEx will call this.
         private void Awake()
         {
-            //I'm awake!
             _instance = this;
-            
-            //Waiting For Startup
             Waiter = new Waiting();
             
-            //Jotunn Localization
-            var localization = Jotunn.Managers.LocalizationManager.Instance.GetLocalization();
+            Jotunn.Entities.CustomLocalization localization = Jotunn.Managers.LocalizationManager.Instance.GetLocalization();
 
-            //Register Logger
-            LogManager.Init(PluginId,out _log);
-            
-            //Initialize Managers
+            LogManager.Init(PluginId, out _log);
             Initializer.LoadManagers(localization);
 
-            //Register Configuration Settings
             _config = new ConfigRegistry(_instance);
 
             Localizer.Waiter.StatusChanged += InitializeModule;
             
-            //Patch Harmony
             _harmony = new Harmony(Info.Metadata.GUID);
             _harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-            //Register Mod Splash Screen
             ModSplashManager.Register(new ModSplashDossier(_instance)
             {
                 Tagline = "An automated feeding mod that keeps tamed creatures fed from nearby containers.",
                 ShowOnStartup = ConfigRegistry.ShowSplashOnStartup,
                 EnableTelemetry = ConfigRegistry.EnableTelemetry,
             });
-
-            //???
-
-            //Profit
         }
 
         public void InitializeModule(object send, EventArgs args)

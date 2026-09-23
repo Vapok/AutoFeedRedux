@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using AutoFeedRedux.Configuration;
 using AutoFeedRedux.Extensions;
@@ -13,25 +13,82 @@ public class AutoFeeder : MonoBehaviour
     public int ContainerLayer => _layer;
     public int ForagerLayer => _foragerLayer;
     public List<Forager> ForagerRegistry => _registry;
+    public IReadOnlyList<Container> AllContainers => _allContainers;
     
+    private static readonly Queue<Container> _preInitQueue = new();
     private int _layer;
     private int _foragerLayer;
     private List<Forager> _registry = new();
+    private List<Container> _allContainers = new();
     private Queue<Container> _containerQueue = new();
+
+    public static void Queue(Container container)
+    {
+        if (container == null)
+            return;
+
+        if (Instance != null)
+        {
+            Instance.QueueContainer(container);
+        }
+        else
+        {
+            _preInitQueue.Enqueue(container);
+        }
+    }
 
     private void Awake()
     {
         Instance = this;
-        _layer = LayerMask.GetMask(new string[] { "piece" });
+        _layer = LayerMask.GetMask(new string[] { "piece", "piece_nonsolid" });
         _foragerLayer = LayerMask.GetMask(new string[] { "character" });
+
+        while (_preInitQueue.Count > 0)
+        {
+            Container pending = _preInitQueue.Dequeue();
+            if (pending != null && pending)
+            {
+                _containerQueue.Enqueue(pending);
+            }
+        }
+
         InvokeRepeating(nameof(ProcessContainerQueue), 0f, 1f);
+    }
+
+    private void OnDestroy()
+    {
+        CancelInvoke(nameof(ProcessContainerQueue));
+        _allContainers.Clear();
+        _preInitQueue.Clear();
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 
     private void ProcessContainerQueue()
     {
+        bool containerAdded = false;
         while (_containerQueue.Count > 0)
         {
-            AddContainer(_containerQueue.Dequeue());
+            Container container = _containerQueue.Dequeue();
+            if (container != null && container.IsPlayerContainer())
+            {
+                if (!_allContainers.Contains(container))
+                {
+                    _allContainers.Add(container);
+                    containerAdded = true;
+                }
+                if (!container.gameObject.TryGetComponent<FeedTrough>(out _))
+                {
+                    container.gameObject.AddComponent<FeedTrough>();
+                }
+            }
+        }
+
+        if (containerAdded)
+        {
+            RefillFeedTroughs();
         }
     }
     
@@ -65,34 +122,43 @@ public class AutoFeeder : MonoBehaviour
     {
         if (container != null && container.IsPlayerContainer())
         {
+            if (!_allContainers.Contains(container))
+            {
+                _allContainers.Add(container);
+            }
             if (!container.gameObject.TryGetComponent<FeedTrough>(out _))
             {
                 container.gameObject.AddComponent<FeedTrough>();
+                RefillFeedTroughs();
             }
-            RefillFeedTroughs();
         }
     }
     
     public void RemoveContainer(Container container)
     {
-        if (container != null && container.IsPlayerContainer())
+        if (container != null)
         {
-            if (container.gameObject.TryGetComponent<FeedTrough>(out var trough))
+            _allContainers.Remove(container);
+            if (container.gameObject.TryGetComponent<FeedTrough>(out FeedTrough trough))
             {
                 Destroy(trough);
+                RefillFeedTroughs();
             }
-            RefillFeedTroughs();
         }
     }
 
     private void RefillFeedTroughs()
     {
-        foreach (var forager in ForagerRegistry)
+        for (int i = _registry.Count - 1; i >= 0; i--)
         {
-            if (forager != null)
+            Forager forager = _registry[i];
+            if (forager == null)
             {
-                forager.UpdateContainers();
+                _registry.RemoveAt(i);
+                continue;
             }
+
+            forager.UpdateContainers();
         }
     }
 }

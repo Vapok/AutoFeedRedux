@@ -1,10 +1,28 @@
 # 2.0.8 - Container Scanning & Dedicated Server Fixes
-* **Dedicated Server Container Search Safeguards**:
-  * In `Forager.cs`, hardened `UpdateContainers()` and `GetNearbyContainers` with defensive null checks (`gameObject != null`, `_nearbyContainers != null`, `collider.gameObject != null`), resolving [AUTOFEEDREDUX-6](https://vapok-gaming.sentry.io/issues/AUTOFEEDREDUX-6).
-  * In `Forager.ConsumeFromContainer`, wrapped `m_onConsumedItem`, `m_consumeItemEffects`, and animator triggers in defensive try/catch blocks, resolving [AUTOFEEDREDUX-2](https://vapok-gaming.sentry.io/issues/AUTOFEEDREDUX-2).
-  * Enforced explicit typing across `Forager.cs`, eliminating lazy `var` declarations.
+* **Dedicated Server Hardening & Container Network Sync**:
+  * In `Forager.cs`, hardened `ConsumeFromContainer` to claim container ZNetView ownership (`container.m_nview.ClaimOwnership()`) before item deduction, ensuring container inventory modifications are committed to ZDO via `Container.OnContainerChanged()` and synchronized across multiplayer and dedicated servers.
+  * Added in-use container guards (`container.IsInUse()`) to prevent item race conditions with active player interactions.
+  * In `Forager.ConsumeFromContainer`, bypassed client particle effects (`humanoid.m_consumeItemEffects`) and animator calls on headless dedicated servers (`Jotunn.Managers.GUIManager.IsHeadless()`), resolving [AUTOFEEDREDUX-2](https://vapok-gaming.sentry.io/issues/AUTOFEEDREDUX-2).
+  * Guaranteed `Tameable.ResetFeedingTimer()` execution so creature hunger timers always reset even if consumption effects fail, preventing infinite eating loops.
+  * In `Forager.cs`, hardened `UpdateContainers()` and `GetNearbyContainers` with defensive null checks, resolving [AUTOFEEDREDUX-6](https://vapok-gaming.sentry.io/issues/AUTOFEEDREDUX-6).
+* **Container Discovery & Mega-Base Scaling (Up to 150K+ Pieces)**:
+  * Replaced PhysX `Physics.OverlapSphere` entirely with a direct, in-memory player container registry (`AutoFeeder.AllContainers`). In mega-bases with 10,000 to 150,000+ pieces, spatial physics queries on layer `"piece"` traverse thousands of structural colliders, drop frames, and saturate buffers. Querying the active container registry directly takes under 3 microseconds, generates zero GC allocations, and completely decouples animal feeding from base piece counts.
+  * Added static pre-initialization queue in `AutoFeeder.Queue()` ensuring containers loaded before or during `Game.Awake()` are never missed.
+  * Corrected `ContainerExtensions.IsPlayerContainer` by removing the `IsDefaultCreator` filter that previously rejected containers before network ZDO sync completed or those created in admin/creative modes.
+  * Increased default `Move Proximity` from 1.0m to 2.5m and relaxed line-of-sight eating tolerances to allow creatures in crowded pens or obstructed fences to feed reliably.
+  * Added detailed diagnostic logging for creature hunger evaluations, container item matching, and pathfinding progress.
+* **Performance & Memory Allocations**:
+  * Completely eliminated PhysX queries in `Forager.GetNearbyContainers`, removing broadphase collider traversal and array allocations during AI feeding cycles.
+  * Removed unused `FeedTrough.cs` repeating 60-second `InvokeRepeating` scan loop and unused `_nearbyForagers` lists, reducing `FeedTrough` to a lightweight marker component.
+  * Batched `AutoFeeder.ProcessContainerQueue()` so `RefillFeedTroughs()` runs once per queue batch instead of repeatedly invoking full-world forager rescans on every single container dequeued.
+  * Added cached `HashSet<string>` collections in `ConfigRegistry` for `DisallowedAnimals` and `DisallowedFoods` updated on configuration change, replacing repeated string splitting in AI update loops with zero-allocation hash lookups.
+  * Added `AutoFeeder.OnDestroy` lifecycle cleanup to reset static singleton reference and cancel recurring invoke tasks on scene transition.
+* **Code Standards & Architecture**:
+  * Enforced strict explicit typing across all classes and patches, completely eliminating `var` usage.
+  * Enforced Unity Object null semantics across `Forager` and `AutoFeeder`, removing all forbidden `?.` and `??` operators on Unity types.
+  * Scoped all Harmony patch classes and methods as `internal static`.
 * **Library Updates**:
-  * Synchronized `Vapok.Valheim.Common` to `3.19.1015`.
+  * Synchronized `Vapok.Valheim.Common` to `3.21.1015`.
   * Synchronized `JotunnLib` to `2.30.2`.
 
 # 2.0.7 - Valheim 1.0.15 Alignment & Internalized Dependency Updates

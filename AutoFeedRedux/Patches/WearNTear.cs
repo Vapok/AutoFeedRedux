@@ -1,10 +1,10 @@
-﻿using AutoFeedRedux.Components;
+using AutoFeedRedux.Components;
 using AutoFeedRedux.Configuration;
 using HarmonyLib;
 
 namespace AutoFeedRedux.Patches;
 
-public class WearNTearPatches
+internal static class WearNTearPatches
 {
     [HarmonyPatch(typeof(WearNTear), nameof(WearNTear.Damage))]
     static class WearNTearDamagePatch
@@ -17,10 +17,10 @@ public class WearNTearPatches
             if (__instance == null || __instance.m_nview == null || !__instance.m_nview.IsValid() || hit == null)
                 return true;
             
-            if (__instance.gameObject.TryGetComponent<FeedTrough>(out var trough))
+            if (__instance.gameObject.TryGetComponent<FeedTrough>(out FeedTrough trough))
             {
-                var attacker = hit.GetAttacker();
-                if (attacker != null && attacker.TryGetComponent<Forager>(out var forager))
+                Character attacker = hit.GetAttacker();
+                if (attacker != null && attacker.TryGetComponent<Forager>(out Forager forager))
                 {
                     AutoFeedRedux.Log.Debug($"Protecting Container {trough.gameObject.name} from {forager.gameObject.name}");
                     return false;

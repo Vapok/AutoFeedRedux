@@ -1,20 +1,16 @@
-﻿using AutoFeedRedux.Components;
+using AutoFeedRedux.Components;
 using HarmonyLib;
 
 namespace AutoFeedRedux.Patches;
 
-public static class ContainerPatches
+internal static class ContainerPatches
 {
     [HarmonyPatch(typeof(Container), nameof(Container.Awake))]
     static class ContainerAwakePatch
     {
         static void Postfix(Container __instance)
         {
-            if (AutoFeeder.Instance == null)
-            {
-                return;
-            }
-            AutoFeeder.Instance.QueueContainer(__instance);
+            AutoFeeder.Queue(__instance);
         }
     }
 

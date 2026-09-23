@@ -1,6 +1,8 @@
 # 2.0.8 - Container Scanning & Dedicated Server Fixes
 * Fixed an issue where container searching could cause errors on dedicated servers.
-* Improved safety when tames eat food directly from storage containers.
+* Improved safety and multiplayer synchronization when tames eat food directly from storage containers.
+* Fixed an issue where animals in busy bases or fenced pens could have trouble finding food containers.
+* Significantly reduced game lag and memory usage by optimizing animal feeding checks and container scanning.
 * Updated Jotunn to 2.30.2 and internal dependencies for stability.
 
 <details>

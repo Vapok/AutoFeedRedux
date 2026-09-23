@@ -1,14 +1,14 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 
 namespace AutoFeedRedux.Patches;
 
-public class FejdStartupPatches
+internal static class FejdStartupPatches
 {
 
     [HarmonyPatch(typeof(FejdStartup), nameof(FejdStartup.Awake))]
     [HarmonyAfter("org.bepinex.helpers.LocalizationManager")]
     [HarmonyBefore("org.bepinex.helpers.ItemManager")]
-    public static class FejdStartupAwakePatch
+    static class FejdStartupAwakePatch
     {
         static void Prefix()
         {

@@ -1,16 +1,16 @@
-﻿using AutoFeedRedux.Components;
+using AutoFeedRedux.Components;
 using HarmonyLib;
 
 namespace AutoFeedRedux.Patches;
 
-public static class TameablePatches
+internal static class TameablePatches
 {
     [HarmonyPatch(typeof(Tameable), nameof(Tameable.Awake))]
     static class TameableAwakePatch
     {
         static void Postfix(Tameable __instance)
         {
-            if (!__instance.gameObject.TryGetComponent<Forager>(out var forager))
+            if (!__instance.gameObject.TryGetComponent<Forager>(out Forager forager))
             {
                 forager = __instance.gameObject.AddComponent<Forager>();
             }

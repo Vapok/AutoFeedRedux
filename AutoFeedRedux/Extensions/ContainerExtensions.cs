@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace AutoFeedRedux.Extensions;
 
@@ -9,10 +9,10 @@ public static class ContainerExtensions
         if (container == null || string.IsNullOrEmpty(container.name) || container.GetInventory() == null)
             return false;
 
-        var nview = container.m_nview;
-        if (nview.IsZDOValid() && nview.GetZDO().IsDefaultCreator())
+        if (container.name.StartsWith("TreasureChest", StringComparison.OrdinalIgnoreCase) ||
+            container.name.StartsWith("loot_", StringComparison.OrdinalIgnoreCase))
             return false;
 
-        return container.name.StartsWith("piece_", StringComparison.Ordinal);
+        return container.m_piece != null || container.name.StartsWith("piece_", StringComparison.OrdinalIgnoreCase);
     }
 }

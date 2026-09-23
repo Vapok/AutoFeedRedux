@@ -1,9 +1,9 @@
-﻿using AutoFeedRedux.Components;
+using AutoFeedRedux.Components;
 using HarmonyLib;
 
 namespace AutoFeedRedux.Patches;
 
-public static class GamePatches
+internal static class GamePatches
 {
     [HarmonyPatch(typeof(Game), nameof(Game.Awake))]
     static class GameAwakePatch
