@@ -23,7 +23,7 @@ namespace AutoFeedRedux
     {
         private const string _pluginId = "vapok.mods.AutoFeedRedux";
         private const string _displayName = "AutoFeedRedux";
-        private const string _version = "2.0.8";
+        private const string _version = "2.0.9";
         
         public string PluginId => _pluginId;
         public string DisplayName => _displayName;

@@ -1,3 +1,8 @@
+# 2.0.9 - Dependency Updates & Stability
+* **Library Updates**:
+  * Internalized `Vapok.Valheim.Common` 3.22.1016.
+  * Updated game assembly references to 1.0.16.
+
 # 2.0.8 - Container Scanning & Dedicated Server Fixes
 * **Dedicated Server Hardening & Container Network Sync**:
   * In `Forager.cs`, hardened `ConsumeFromContainer` to claim container ZNetView ownership (`container.m_nview.ClaimOwnership()`) before item deduction, ensuring container inventory modifications are committed to ZDO via `Container.OnContainerChanged()` and synchronized across multiplayer and dedicated servers.
