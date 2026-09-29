@@ -16,8 +16,6 @@ namespace AutoFeedRedux.Configuration
         internal static ConfigEntry<float> MoveProximity;
         internal static ConfigEntry<string> DisallowFeed;
         internal static ConfigEntry<string> DisallowAnimal;
-        internal static ConfigEntry<bool> ShowSplashOnStartup;
-        internal static ConfigEntry<bool> EnableTelemetry;
 
         public static HashSet<string> DisallowedAnimals { get; private set; } = new(StringComparer.OrdinalIgnoreCase);
         public static HashSet<string> DisallowedFoods { get; private set; } = new(StringComparer.OrdinalIgnoreCase);
@@ -71,13 +69,7 @@ namespace AutoFeedRedux.Configuration
                     null, 
                     new ConfigurationManagerAttributes { Category = "Synced Settings", Order = 2 }), ref ProtectContainers);
 
-            UnsyncedConfig("Local Config", "Show Splash on Startup", true,
-                new ConfigDescription("If enabled, displays the mod overview and links splash screen on game startup.",
-                    null, new ConfigurationManagerAttributes { Order = 4 }), ref ShowSplashOnStartup);
 
-            UnsyncedConfig("Local Config", "Enable Anonymous Telemetry", true,
-                new ConfigDescription("If enabled, sends anonymous mod launch and heartbeat telemetry to help improve mod stability and track active versions.",
-                    null, new ConfigurationManagerAttributes { Order = 5 }), ref EnableTelemetry);
 
             UpdateDisallowedAnimals();
             UpdateDisallowedFoods();

@@ -62,7 +62,6 @@ namespace AutoFeedRedux
             {
                 Tagline = "An automated feeding mod that keeps tamed creatures fed from nearby containers.",
                 ShowOnStartup = ConfigRegistry.ShowSplashOnStartup,
-                EnableTelemetry = ConfigRegistry.EnableTelemetry,
             });
         }
 
