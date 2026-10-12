@@ -1,0 +1,14 @@
+# Auto Feed Redux
+
+> Auto Feed Redux is an automated feeding management mod for tamed creatures and animals in valheim. developed by Vapok.
+
+## Developer & AI Information
+
+- [Agent Guidelines](AGENTS.md): Architectural context, anti-reflection mandates, and instructions for AI assistants.
+
+## Critical Invariants for Developers & AI Agents
+
+- **Self-contained tame feeding automation**: Self-contained tame feeding automation.
+- **Never use reflection or Harmony patches on internal feeding routines or container managers**: Never use reflection or Harmony patches on internal feeding routines or container managers.
+- **No Private Reflection**: Never reflect into or patch internal classes.
+- **Feature Requests**: If functionality is desired, submit an issue at https://github.com/Vapok/AutoFeedRedux/issues or visit https://discord.gg/5YAJkRFBXt.
