@@ -77,7 +77,7 @@ public class Forager : MonoBehaviour
 
     public bool UpdateAutoFeed(MonsterAI monsterAI, Humanoid humanoid, float dt, ref bool result)
     {
-        if (!ConfigRegistry.Enabled.Value)
+        if (ConfigRegistry.Enabled == null || !ConfigRegistry.Enabled.Value)
             return false;
 
         if (Tame != null && !Tame.IsHungry())
@@ -93,12 +93,12 @@ public class Forager : MonoBehaviour
         }
 
         HashSet<string> disallowedAnimals = ConfigRegistry.DisallowedAnimals;
-        if (disallowedAnimals.Count > 0)
+        if (disallowedAnimals != null && disallowedAnimals.Count > 0)
         {
             string creatureName = monsterAI.name;
             foreach (string animal in disallowedAnimals)
             {
-                if (creatureName.StartsWith(animal, StringComparison.OrdinalIgnoreCase))
+                if (!string.IsNullOrEmpty(animal) && creatureName.StartsWith(animal, StringComparison.OrdinalIgnoreCase))
                 {
                     ClearTarget();
                     return false;
@@ -132,7 +132,8 @@ public class Forager : MonoBehaviour
 
             if (_nearbyContainers == null || _nearbyContainers.Count == 0)
             {
-                AutoFeedRedux.Log.Debug($"{monsterAI.name} is hungry, but 0 nearby containers found within {ConfigRegistry.FeedRange.Value}m");
+                float range = ConfigRegistry.FeedRange != null ? ConfigRegistry.FeedRange.Value : 10f;
+                AutoFeedRedux.Log.Debug($"{monsterAI.name} is hungry, but 0 nearby containers found within {range}m");
                 return false;
             }
 
@@ -142,7 +143,7 @@ public class Forager : MonoBehaviour
                 return false;
             }
 
-            if (!ConfigRegistry.RequireMove.Value)
+            if (ConfigRegistry.RequireMove != null && !ConfigRegistry.RequireMove.Value)
             {
                 if (ConsumeFromContainer(closestContainer, foodItem, monsterAI, humanoid))
                 {
@@ -164,7 +165,7 @@ public class Forager : MonoBehaviour
                 ? TargetContainer.m_piece.FindClosestPoint(myPos)
                 : TargetContainer.transform.position;
 
-            float proximity = ConfigRegistry.MoveProximity.Value;
+            float proximity = ConfigRegistry.MoveProximity != null ? ConfigRegistry.MoveProximity.Value : 2f;
             float distance = Vector3.Distance(myPos, targetPos);
 
             bool reached = monsterAI.MoveTo(dt, targetPos, proximity, false);
@@ -193,7 +194,8 @@ public class Forager : MonoBehaviour
             return false;
 
         Vector3 myPos = Animal != null ? Animal.transform.position : transform.position;
-        if (Vector3.Distance(myPos, container.transform.position) > ConfigRegistry.FeedRange.Value * 1.5f)
+        float maxRange = ConfigRegistry.FeedRange != null ? ConfigRegistry.FeedRange.Value * 1.5f : 15f;
+        if (Vector3.Distance(myPos, container.transform.position) > maxRange)
             return false;
 
         if (foodItem == null || !foodItem || foodItem.m_itemData == null || foodItem.m_itemData.m_shared == null)
@@ -227,7 +229,7 @@ public class Forager : MonoBehaviour
                 if (food == null || !food || food.m_itemData == null || food.m_itemData.m_shared == null)
                     continue;
 
-                if (disallowedFoods.Count > 0 && disallowedFoods.Contains(food.name))
+                if (disallowedFoods != null && disallowedFoods.Count > 0 && disallowedFoods.Contains(food.name))
                     continue;
 
                 if (inv.ContainsItemByName(food.m_itemData.m_shared.m_name))

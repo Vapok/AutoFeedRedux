@@ -107,6 +107,24 @@ All settings can be tailored in real-time using the in-game [BepInEx Configurati
 * ⚠️ **Integration Policy**: Auto Feed Redux is a self-contained mod without a public API. Do not use reflection or Harmony patches on internal classes.
 * 💡 **Feature Requests**: If you need integration hooks or functionality, open a [Feature Request](https://github.com/Vapok/AutoFeedRedux/issues) or reach out in our [Discord](https://discord.gg/5YAJkRFBXt).
 
+---
+
+## 🤖 AI Disclosure & Transparency Audit
+
+In accordance with mod store's various AI policies, below is the full transparency breakdown for **AutoFeedRedux**:
+
+* **Audit Status**: `AI ASSISTED`
+* **Weighted LLM Score**: `26.4%`
+
+| Category | Evaluated Surface | LLM Score | Status |
+| :--- | :--- | :--- | :--- |
+| **C# Assembly & Logic** | Decompiled C# source (95 files) | `23.4%` | C# codebase shows 23.4% line proportion across flagged files utilizing idiomatic utility structures and configuration patterns. |
+| **Package Manifest & Structure** | Manifest, structure & icon (v2.0.13) | `0.0%` | Package manifest and icon.png represent an authentic human desktop image-editor composite with clean metadata and branding. |
+| **Documentation & Copywriting** | Package documentation (7407 chars) | `85.0%` | Documentation features comprehensive, professionally structured Markdown with AI-assisted formatting, badges, and detailed configuration tables. |
+| **Visual & Audio Media** | In-package Unity & media assets | `0.0%` | Mod package is a pure C# code plugin with zero in-mod UnityFS asset bundles, embedded textures, or audio files. |
+
+---
+
 ## 🔒 Anonymous Telemetry, Error Reporting & Privacy
 
 AutoFeedRedux includes lightweight, privacy-first telemetry and error reporting to help monitor mod stability, diagnose unhandled bugs, and track active version adoption across game updates.
