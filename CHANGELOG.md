@@ -1,6 +1,6 @@
 # 2.0.13 - Valheim 1.0.21 Feeding Fix & Dependency Updates
 * **Creature Feeding Fix**: Fixed an issue in Valheim 1.0.21 where animals could fail to eat from containers due to a game update change.
-* **Documentation**: Added AI Mod Checker transparency audit disclosure to README.
+* **Documentation**: Added AI transparency audit disclosure to README.
 * **Compatibility**: Marked incompatible with NoPopUpsInMyValheim, and updated dependencies for Valheim 1.0.21 and BepInEx 5.4.2360.
 
 <details>
