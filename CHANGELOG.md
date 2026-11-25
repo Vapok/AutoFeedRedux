@@ -1,10 +1,13 @@
-# 2.0.13 - Valheim 1.0.21 Feeding Fix & Dependency Updates
-* **Creature Feeding Fix**: Fixed an issue in Valheim 1.0.21 where animals could fail to eat from containers due to a game update change.
-* **Documentation**: Added AI transparency audit disclosure to README.
-* **Compatibility**: Updated dependencies for Valheim 1.0.21 and BepInEx 5.4.2360.
+# 2.0.14 - Valheim 1.0.30 Update & Dependency Alignment
+* **Compatibility**: Updated dependencies for Valheim 1.0.30 stability.
 
 <details>
 <summary><b>2.0 Changelog History (Valheim Release)</b> (<i>click to expand</i>)</summary>
+
+### 2.0.13 - Valheim 1.0.21 Feeding Fix & Dependency Updates
+* **Creature Feeding Fix**: Fixed an issue in Valheim 1.0.21 where animals could fail to eat from containers due to a game update change.
+* **Documentation**: Added AI transparency audit disclosure to README.
+* **Compatibility**: Updated dependencies for Valheim 1.0.21 and BepInEx 5.4.2360.
 
 
 
