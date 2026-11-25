@@ -1,3 +1,8 @@
+# 2.0.14 - Valheim 1.0.30 Update & Dependency Alignment
+* **Dependency & Engine Alignment**:
+  * Updated internalized dependency `Vapok.Valheim.Common` to 3.1030.1.
+  * Aligned game assembly references to Valheim 1.0.30.
+
 # 2.0.13 - Valheim 1.0.21 Feeding Fix & Dependency Updates
 * **Valheim 1.0.21 `EffectList.Create` Recompilation & Forager Hardening (`AUTOFEEDREDUX-7` & `AUTOFEEDREDUX-8`)**:
   * Recompiled `Forager.UpdateAutoFeed` against Valheim 1.0.21 `EffectList.Create` (which added an optional `float verticalOffset = 0f` parameter) to resolve `MissingMethodException` during container feeding.
